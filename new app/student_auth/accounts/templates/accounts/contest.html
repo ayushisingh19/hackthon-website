@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sage Coding Competition - Decode Data Academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .competition-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=2069&auto=format&fit=crop') center center/cover no-repeat;
+        }
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-2">
+                <img src="https://i.imgur.com/2y4zE3g.png" alt="Decode Data Academy Logo" class="h-10 w-10">
+                <span class="text-xl font-bold text-gray-800">Decode Data Academy</span>
+            </a>
+            <div class="hidden md:flex items-center space-x-6">
+               <a href="{% url "home" %}" class="text-gray-600 hover:text-purple-700 transition-colors">Home</a>
+                <a href="#" class="text-gray-600 hover:text-purple-700 transition-colors">Contests</a>
+                <a href="#" class="text-gray-600 hover:text-purple-700 transition-colors">Leaderboard</a>
+                <a href="#" class="text-gray-600 hover:text-purple-700 transition-colors">About</a>
+            </div>
+                <div class="hidden md:flex items-center space-x-4">
+    {% if student %}
+        <span class="text-gray-800 font-semibold">Welcome, {{ student.name }}</span>
+        <a href="{% url 'logout' %}" class="text-red-600 hover:text-red-800">Logout</a>
+    {% else %}
+        <a href="{% url 'login' %}" class="text-gray-600 hover:text-purple-700">Log In</a>
+    {% endif %}
+</div>
+            <button id="mobile-menu-button" class="md:hidden">
+                <i data-lucide="menu"></i>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 space-y-2">
+            <a href="#" class="block text-gray-600 hover:text-purple-700">Contests</a>
+            <a href="#" class="block text-gray-600 hover:text-purple-700">Leaderboard</a>
+            <a href="#" class="block text-gray-600 hover:text-purple-700">About</a>
+            <div class="border-t pt-4 space-y-2">
+                 <a href="#" class="block text-center text-gray-600 hover:text-purple-700">Log In</a>
+                <a href="#" class="block text-center bg-purple-700 text-white px-4 py-2 rounded-lg hover:bg-purple-800 transition-colors">Register</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Competition Hero Section -->
+        <section class="competition-hero text-white py-20 md:py-32">
+            <div class="container mx-auto px-6 text-center">
+                <p class="text-yellow-400 font-semibold text-lg mb-2">Presented by Decode Data Academy & Sage University</p>
+                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4">Sage Coding Competition</h1>
+                <p class="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto mb-10">Test your mastery of algorithms and dynamic programming in the ultimate coding showdown.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-12">
+                    <div class="stat-card p-6 rounded-xl">
+                        <i data-lucide="calendar" class="h-8 w-8 mx-auto mb-2 text-yellow-400"></i>
+                        <h3 class="text-xl font-bold">September 5, 2025</h3>
+                        <p class="text-gray-300">10:00 UTC</p>
+                    </div>
+                    <div class="stat-card p-6 rounded-xl">
+                        <i data-lucide="award" class="h-8 w-8 mx-auto mb-2 text-yellow-400"></i>
+                        <h3 class="text-xl font-bold">₹50,000 Prize Pool</h3>
+                        <p class="text-gray-300">Cash & Goodies</p>
+                    </div>
+                    <div class="stat-card p-6 rounded-xl">
+                        <i data-lucide="users" class="h-8 w-8 mx-auto mb-2 text-yellow-400"></i>
+                        <h3 class="text-xl font-bold">Open to All Students</h3>
+                        <p class="text-gray-300">University Level</p>
+                    </div>
+                </div>
+
+                <a href="{% url 'problem_editor' %}" class="bg-yellow-400 text-purple-900 font-bold px-10 py-4 rounded-lg text-xl hover:bg-yellow-500 transition-transform transform hover:scale-105 inline-block">
+                    Start Now
+                </a>
+            </div>
+        </section>
+
+        <!-- Competition Details Section -->
+        <section class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <!-- Left Column -->
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-800 mb-4">About the Competition</h2>
+                        <p class="text-gray-600 mb-6">
+                            The Sage Coding Competition is a premier competitive programming event designed to challenge students with a knack for problem-solving. This year's theme focuses on *dynamic programming and advanced algorithms*. Participants will face a series of complex problems that will test both their theoretical knowledge and practical coding skills.
+                        </p>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">Prizes</h3>
+                        <ul class="space-y-3 text-gray-600">
+                            <li class="flex items-start"><i data-lucide="trophy" class="h-5 w-5 mr-3 mt-1 text-yellow-500"></i> <strong>1st Place:</strong> ₹25,000 Cash + Certificate of Excellence</li>
+                            <li class="flex items-start"><i data-lucide="medal" class="h-5 w-5 mr-3 mt-1 text-gray-400"></i> <strong>2nd Place:</strong> ₹15,000 Cash + Certificate of Excellence</li>
+                            <li class="flex items-start"><i data-lucide="award" class="h-5 w-5 mr-3 mt-1 text-orange-400"></i> <strong>3rd Place:</strong> ₹10,000 Cash + Certificate of Excellence</li>
+                            <li class="flex items-start"><i data-lucide="gift" class="h-5 w-5 mr-3 mt-1 text-purple-500"></i> <strong>Top 10 Participants:</strong> Exclusive Swag Pack from Decode Data Academy.</li>
+                        </ul>
+                    </div>
+                    <!-- Right Column -->
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-800 mb-4">Schedule & Rules</h2>
+                        <div class="space-y-4">
+                           <div class="bg-purple-50 p-4 rounded-lg">
+                               <h4 class="font-semibold text-purple-800">Registration Period</h4>
+                               <p class="text-purple-700">August 20, 2025 - September 4, 2025</p>
+                           </div>
+                           <div class="bg-purple-50 p-4 rounded-lg">
+                               <h4 class="font-semibold text-purple-800">Competition Day</h4>
+                               <p class="text-purple-700">September 5, 2025 | 10:00 UTC - 13:00 UTC (3 hours)</p>
+                           </div>
+                           <div class="bg-purple-50 p-4 rounded-lg">
+                               <h4 class="font-semibold text-purple-800">Results Announcement</h4>
+                               <p class="text-purple-700">September 7, 2025</p>
+                           </div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mt-8 mb-3">Eligibility</h3>
+                        <p class="text-gray-600">
+                            The competition is open to all undergraduate and postgraduate students from any university. Participants must register individually.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-purple-900 text-white">
+        <div class="container mx-auto px-6 py-12">
+            <div class="text-center text-purple-300">
+                <p>&copy; 2025 Decode Data Academy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

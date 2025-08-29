@@ -1,0 +1,43 @@
+<div class="card">
+  <h3>Evaluation</h3>
+  <div class="row">
+    <select id="eval_contest">
+      {% for c in contests %}
+        <option value="{{ c.id }}">{{ c.name }} (id {{ c.id }})</option>
+      {% endfor %}
+    </select>
+    <button class="btn" onclick="startEval()">Start Evaluation</button>
+    <button class="btn" onclick="loadScoreboard()">Load Scoreboard</button>
+  </div>
+
+  <div id="scoreboard" style="margin-top:16px;"></div>
+</div>
+
+<script>
+async function startEval(){
+  const cid = document.getElementById('eval_contest').value;
+  const res = await fetch(`/api/contests/${cid}/evaluate/`, {
+    method:'POST', headers:{'X-CSRFToken':'{{ csrf_token }}'}
+  });
+  alert(res.ok ? 'Evaluation completed' : 'Evaluation failed');
+}
+
+async function loadScoreboard(){
+  const cid = document.getElementById('eval_contest').value;
+  const res = await fetch(`/api/contests/${cid}/scoreboard/`);
+  const data = await res.json();
+  const cols = data.columns;
+  const rows = data.rows;
+
+  let html = '<table><thead><tr>';
+  cols.forEach(c=>{ html += `<th>${c}</th>`; });
+  html += '</tr></thead><tbody>';
+  rows.forEach(r=>{
+    html += '<tr>';
+    cols.forEach(c=>{ html += `<td>${(r[c]??'')}</td>`; });
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  document.getElementById('scoreboard').innerHTML = html;
+}
+</script>

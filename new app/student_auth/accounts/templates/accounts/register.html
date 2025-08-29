@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'accounts/style.css' %}">
+    <script src="{% static 'accounts/validate.js' %}"></script>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Registration Form</h2>
+        <form method="POST" onsubmit="return validateForm()">
+            {% csrf_token %}
+            <input type="text" name="name" placeholder="Full Name" required><br>
+            <input type="email" name="email" placeholder="Email" required><br>
+            <input type="password" name="password" placeholder="Password" required><br>
+            <input type="text" name="mobile" placeholder="Mobile" required><br>
+            <input type="text" name="college" placeholder="College" required><br>
+            <input type="number" name="passout_year" placeholder="Passout Year" required><br>
+            <input type="text" name="branch" placeholder="Branch" required><br>
+            <button type="submit">Register</button>
+        </form>
+        <p>Already registered? <a href="{% url 'login' %}">Login here</a></p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,299 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decode Data Academy - Coding Competition Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* A light gray background */
+        }
+        .hero-gradient {
+            /* Updated to a purple gradient */
+            background: linear-gradient(135deg, #5f259f 0%, #834d9b 100%);
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-2">
+                <!-- Logo Added Here -->
+              <img src="{% static 'image/decodelogo.png' %}" alt="Admin" class="admin-avatar" height="50px" width="50px">
+                <span class="text-xl font-bold text-gray-800">Decode Data Academy</span>
+            </a>
+            <div class="hidden md:flex items-center space-x-6">
+                <!-- Updated hover colors -->
+                <a href="{% url 'contest' %}" class="text-gray-600 hover:text-purple-700 transition-colors">Contests</a>
+                <a href="#" class="text-gray-600 hover:text-purple-700 transition-colors">Practice</a>
+                <a href="#" class="text-gray-600 hover:text-purple-700 transition-colors">Leaderboard</a>
+                <a href="#" class="text-gray-600 hover:text-purple-700 transition-colors">About</a>
+            </div>
+<!-- Profile Dropdown -->
+<div class="relative inline-block text-left">
+  <!-- Profile Button -->
+  <button id="dropdownBtn" class="flex items-center space-x-2 focus:outline-none">
+    <img src="https://ui-avatars.com/api/?name=User" alt="Profile" class="w-8 h-8 rounded-full">
+    <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+
+  <!-- Dropdown Menu -->
+  <div id="dropdownMenu"
+       class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 z-50">
+
+    <!-- Student Section -->
+    {% if student %}
+      <div class="px-4 py-2 text-sm text-gray-700 border-b">
+        Welcome, {{ student.name }}
+      </div>
+      <a href="{% url 'logout' %}" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+        Logout (Student)
+      </a>
+    {% else %}
+      <a href="{% url 'login' %}" class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100">
+        Log In (Student)
+      </a>
+    {% endif %}
+
+    <!-- Divider -->
+    <hr class="my-1">
+
+    <!-- Admin Section -->
+
+</div>
+
+<!-- Script for Dropdown -->
+<script>
+  const btn = document.getElementById("dropdownBtn");
+  const menu = document.getElementById("dropdownMenu");
+
+  btn.addEventListener("click", () => {
+    menu.classList.toggle("hidden");
+  });
+
+  // Close dropdown when clicking outside
+  window.addEventListener("click", (e) => {
+    if (!btn.contains(e.target) && !menu.contains(e.target)) {
+      menu.classList.add("hidden");
+    }
+  });
+</script>
+
+            <button id="mobile-menu-button" class="md:hidden">
+                <i data-lucide="menu"></i>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 space-y-2">
+            <a href="{% url 'contest' %}" class="block text-gray-600 hover:text-purple-700">Contests</a>
+            <a href="#" class="block text-gray-600 hover:text-purple-700">Practice</a>
+            <a href="#" class="block text-gray-600 hover:text-purple-700">Leaderboard</a>
+            <a href="#" class="block text-gray-600 hover:text-purple-700">About</a>
+            <div class="border-t pt-4 space-y-2">
+                 <a href="#"class="bg-yellow-400 text-purple-900 font-bold px-8 py-3 rounded-lg text-lg hover:bg-yellow-500 transition-transform transform hover:scale-105"></a>Log In</a>
+
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-gradient text-white">
+            <div class="container mx-auto px-6 py-24 text-center">
+                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4">Unlock Your Coding Potential</h1>
+                <!-- Updated text color for better contrast with purple -->
+                <p class="text-lg md:text-xl text-purple-100 max-w-3xl mx-auto mb-8">Join a global community of coders, compete in thrilling challenges, and elevate your problem-solving skills to the next level.</p>
+                <!-- Updated button with yellow accent color -->
+                <a href="{% url 'register' %}" class="bg-yellow-400 text-purple-900 font-bold px-8 py-3 rounded-lg text-lg hover:bg-yellow-500 transition-transform transform hover:scale-105">Register</a>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Why Code With Us?</h2>
+                    <p class="text-gray-600 mt-2">The ultimate platform for competitive programming.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Feature 1 -->
+                    <div class="text-center p-6">
+                        <!-- Updated icon colors -->
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-purple-100 text-purple-700 mx-auto mb-4">
+                            <i data-lucide="award" class="h-8 w-8"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Diverse Challenges</h3>
+                        <p class="text-gray-600">From algorithms and data structures to machine learning and AI, we have it all.</p>
+                    </div>
+                    <!-- Feature 2 -->
+                    <div class="text-center p-6">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-purple-100 text-purple-700 mx-auto mb-4">
+                            <i data-lucide="trophy" class="h-8 w-8"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Compete & Win</h3>
+                        <p class="text-gray-600">Showcase your skills on a global stage and win exciting prizes and recognition.</p>
+                    </div>
+                    <!-- Feature 3 -->
+                    <div class="text-center p-6">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-purple-100 text-purple-700 mx-auto mb-4">
+                            <i data-lucide="brain-circuit" class="h-8 w-8"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Learn & Grow</h3>
+                        <p class="text-gray-600">Sharpen your mind with our vast collection of practice problems and tutorials.</p>
+                    </div>
+                    <!-- Feature 4 -->
+                    <div class="text-center p-6">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-purple-100 text-purple-700 mx-auto mb-4">
+                            <i data-lucide="users" class="h-8 w-8"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Global Community</h3>
+                        <p class="text-gray-600">Connect, collaborate, and learn from a diverse community of passionate coders.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Upcoming Contests Section -->
+        <section class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Upcoming Contests</h2>
+                    <p class="text-gray-600 mt-2">Get ready for the next challenge. Mark your calendar!</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Contest Card 1 -->
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden card-hover transition-all duration-300">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-bold text-gray-800">AlgoSprint 2025</h3>
+                                <span class="bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">Easy</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">A beginner-friendly contest focusing on fundamental algorithms and data structures.</p>
+                            <div class="flex items-center text-gray-500 mb-6">
+                                <i data-lucide="calendar" class="h-5 w-5 mr-2"></i>
+                                <span>September 15, 2025 - 18:00 UTC</span>
+                            </div>
+                            <!-- Updated button color -->
+                            <a href="#" class="w-full block text-center bg-purple-700 text-white px-4 py-2 rounded-lg hover:bg-purple-800 transition-colors">Register Now</a>
+                        </div>
+                    </div>
+                    <!-- Contest Card 2 -->
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden card-hover transition-all duration-300">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-bold text-gray-800">Data Dive Challenge</h3>
+                                <span class="bg-yellow-100 text-yellow-800 text-sm font-medium px-3 py-1 rounded-full">Medium</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Dive into real-world datasets and solve complex data science problems.</p>
+                             <div class="flex items-center text-gray-500 mb-6">
+                                <i data-lucide="calendar" class="h-5 w-5 mr-2"></i>
+                                <span>October 1, 2025 - 12:00 UTC</span>
+                            </div>
+                            <!-- Updated button color -->
+                            <a href="#" class="w-full block text-center bg-purple-700 text-white px-4 py-2 rounded-lg hover:bg-purple-800 transition-colors">Register Now</a>
+                        </div>
+                    </div>
+                    <!-- Contest Card 3 -->
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden card-hover transition-all duration-300">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-bold text-gray-800">Code Titans Arena</h3>
+                                <span class="bg-red-100 text-red-800 text-sm font-medium px-3 py-1 rounded-full">Hard</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">An exclusive challenge for expert programmers with mind-bending problems.</p>
+                             <div class="flex items-center text-gray-500 mb-6">
+                                <i data-lucide="calendar" class="h-5 w-5 mr-2"></i>
+                                <span>October 20, 2025 - 09:00 UTC</span>
+                            </div>
+                            <a href="#" class="w-full block text-center bg-gray-300 text-gray-600 px-4 py-2 rounded-lg cursor-not-allowed">Registration Opens Soon</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sponsors Section -->
+        <section class="py-16 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="text-center text-2xl font-semibold text-gray-600 mb-8">Trusted by the World's Best Companies</h2>
+                <div class="flex flex-wrap justify-center items-center gap-x-12 gap-y-8">
+                    <img src="https://placehold.co/120x60/d1d5db/374151?text=SponsorA" alt="Sponsor Logo 1" class="h-10 opacity-60" onerror="this.onerror=null;this.src='https://placehold.co/120x60/d1d5db/374151?text=SponsorA';">
+                    <img src="https://placehold.co/120x60/d1d5db/374151?text=SponsorB" alt="Sponsor Logo 2" class="h-10 opacity-60" onerror="this.onerror=null;this.src='https://placehold.co/120x60/d1d5db/374151?text=SponsorB';">
+                    <img src="https://placehold.co/120x60/d1d5db/374151?text=SponsorC" alt="Sponsor Logo 3" class="h-10 opacity-60" onerror="this.onerror=null;this.src='https://placehold.co/120x60/d1d5db/374151?text=SponsorC';">
+                    <img src="https://placehold.co/120x60/d1d5db/374151?text=SponsorD" alt="Sponsor Logo 4" class="h-10 opacity-60" onerror="this.onerror=null;this.src='https://placehold.co/120x60/d1d5db/374151?text=SponsorD';">
+                    <img src="https://placehold.co/120x60/d1d5db/374151?text=SponsorE" alt="Sponsor Logo 5" class="h-10 opacity-60" onerror="this.onerror=null;this.src='https://placehold.co/120x60/d1d5db/374151?text=SponsorE';">
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <!-- Updated Footer Theme -->
+    <footer class="bg-purple-900 text-white">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Decode Data Academy</h3>
+                    <p class="text-purple-200">The premier destination for competitive programmers and data scientists.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-purple-200 hover:text-white">Contests</a></li>
+                        <li><a href="#" class="text-purple-200 hover:text-white">Leaderboard</a></li>
+                        <li><a href="#" class="text-purple-200 hover:text-white">Contact Us</a></li>
+                        <li><a href="#" class="text-purple-200 hover:text-white">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-purple-200 hover:text-white">Terms of Service</a></li>
+                        <li><a href="#" class="text-purple-200 hover:text-white">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-purple-200 hover:text-white"><i data-lucide="twitter"></i></a>
+                        <a href="#" class="text-purple-200 hover:text-white"><i data-lucide="github"></i></a>
+                        <a href="#" class="text-purple-200 hover:text-white"><i data-lucide="linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-purple-800 mt-8 pt-6 text-center text-purple-300">
+                <p>&copy; 2025 Decode Data Academy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>!~

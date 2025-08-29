@@ -1,0 +1,106 @@
+<div class="card">
+  <h3>Create Contest</h3>
+  <div class="grid two">
+    <div>
+      <label>Name</label>
+      <input id="c_name" placeholder="Contest name">
+    </div>
+    <div>
+      <label>Start (YYYY-MM-DD HH:MM)</label>
+      <input id="c_start" placeholder="2025-12-31 18:00">
+    </div>
+  </div>
+  <div class="grid two" style="margin-top:12px;">
+    <div>
+      <label>Duration (minutes)</label>
+      <input id="c_dur" type="number" value="120">
+    </div>
+    <div>
+      <label>Active?</label>
+      <select id="c_active">
+        <option value="true">Yes</option>
+        <option value="false">No</option>
+      </select>
+    </div>
+  </div>
+
+  <hr style="margin:16px 0;">
+
+  <h4>Add Problems</h4>
+  <p class="muted">Create a new problem with testcases or reference existing IDs.</p>
+
+  <div class="grid two">
+    <div class="card" style="border:1px dashed #e5e7eb;">
+      <h4>New Problem</h4>
+      <input id="p_title" placeholder="Title">
+      <textarea id="p_desc" placeholder="Description" style="margin-top:8px;"></textarea>
+      <div class="grid two" style="margin-top:8px;">
+        <div>
+          <label>Expected Complexity</label>
+          <select id="p_exp">
+            <option>O(1)</option><option>O(log n)</option><option>O(n)</option>
+            <option selected>O(n log n)</option><option>O(n^2)</option>
+            <option>O(n^3)</option><option>O(2^n)</option>
+          </select>
+        </div>
+        <div>
+          <label>Mem Limit (MB)</label>
+          <input id="p_mem" type="number" value="256">
+        </div>
+      </div>
+      <div style="margin-top:8px;">
+        <label>Testcases (CSV style: input|||output|||hidden[0/1], one per line)</label>
+        <textarea id="p_tcs" placeholder="1 2 3|||6|||0&#10;5 6|||11|||1"></textarea>
+      </div>
+      <button class="btn" style="margin-top:10px;" onclick="createProblem()">Create Problem</button>
+      <div id="p_result" class="muted" style="margin-top:6px;"></div>
+    </div>
+    <div class="card" style="border:1px dashed #e5e7eb;">
+      <h4>Attach Existing Problem IDs</h4>
+      <input id="existing_ids" placeholder="e.g. 3,5,8">
+    </div>
+  </div>
+
+  <button class="btn" style="margin-top:14px;" onclick="createContest()">Create Contest</button>
+  <div id="c_result" class="muted" style="margin-top:6px;"></div>
+</div>
+
+<script>
+async function createProblem(){
+  const title = document.getElementById('p_title').value.trim();
+  const description = document.getElementById('p_desc').value.trim();
+  const exp = document.getElementById('p_exp').value;
+  const mem = parseInt(document.getElementById('p_mem').value||'256',10);
+  const lines = document.getElementById('p_tcs').value.trim().split('\n').filter(Boolean);
+  const testcases = lines.map(l=>{
+    const [i,o,h] = l.split('|||');
+    return {input_data:i??'', expected_output:o??'', is_hidden:(h||'0').trim()==='1'};
+  });
+  const res = await fetch('/api/problems/', {
+    method:'POST',
+    headers: {'Content-Type':'application/json','X-CSRFToken': '{{ csrf_token }}'},
+    body: JSON.stringify({title, description, exp_complexity: exp, mem_limit_mb: mem, testcases})
+  });
+  const data = await res.json();
+  document.getElementById('p_result').textContent = res.ok ? `Created Problem ID ${data.id}` : JSON.stringify(data);
+  if(res.ok){
+    const ex = document.getElementById('existing_ids');
+    ex.value = ex.value ? (ex.value + ',' + data.id) : String(data.id);
+  }
+}
+
+async function createContest(){
+  const name = document.getElementById('c_name').value;
+  const start = document.getElementById('c_start').value.replace(' ', 'T') + ':00';
+  const dur = parseInt(document.getElementById('c_dur').value||'120',10);
+  const is_active = document.getElementById('c_active').value === 'true';
+  const ids = document.getElementById('existing_ids').value.split(',').map(s=>parseInt(s.trim(),10)).filter(n=>!isNaN(n));
+  const res = await fetch('/api/contests/', {
+    method:'POST',
+    headers:{'Content-Type':'application/json','X-CSRFToken':'{{ csrf_token }}'},
+    body: JSON.stringify({name, start_at:start, duration_minutes:dur, is_active, problems: ids})
+  });
+  const data = await res.json();
+  document.getElementById('c_result').textContent = res.ok ? `Created Contest ID ${data.id}` : JSON.stringify(data);
+}
+</script>

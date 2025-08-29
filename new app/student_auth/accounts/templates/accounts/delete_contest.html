@@ -1,0 +1,32 @@
+<div class="card">
+  <h3>Delete Contest</h3>
+  <table>
+    <thead><tr><th>ID</th><th>Name</th><th>Start</th><th>Active</th><th>Action</th></tr></thead>
+    <tbody>
+      {% for c in contests %}
+        <tr id="row-{{ c.id }}">
+          <td>{{ c.id }}</td>
+          <td>{{ c.name }}</td>
+          <td>{{ c.start_at }}</td>
+          <td>{{ c.is_active }}</td>
+          <td>
+            <button class="btn red" onclick="delContest({{ c.id }})">Delete</button>
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="5" class="muted">No active contests</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<script>
+async function delContest(id){
+  if(!confirm('Delete contest '+id+' ?')) return;
+  const res = await fetch('/api/contests/'+id+'/', {
+    method:'DELETE',
+    headers:{'X-CSRFToken':'{{ csrf_token }}'}
+  });
+  if(res.status===204){ document.getElementById('row-'+id)?.remove(); }
+  else { alert('Failed'); }
+}
+</script>
