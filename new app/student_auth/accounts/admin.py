@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Participant, Contest, Problem, TestCase, Submission, ScoreboardRow, Student
+from .models import Participant, Contest, Problem, TestCase,  Student
 
 
 from .models import Student
@@ -35,7 +35,7 @@ class TestCaseInline(admin.TabularInline):
     extra = 0
 
 class ProblemAdmin(admin.ModelAdmin):
-    list_display = ("contest", "code", "title", "cpp_mem_limit_mb", "python_mem_limit_mb")
+    list_display = ("contest", "code", "title", )
     inlines = [TestCaseInline]
 
 admin.site.register(Problem, ProblemAdmin)
@@ -44,28 +44,3 @@ admin.site.register(TestCase)
 
 
 # ---------- Submission ----------
-class SubmissionAdmin(admin.ModelAdmin):
-    def has_add_permission(self, request):
-        return False
-
-    def has_change_permission(self, request, obj=None):
-        return False
-
-    def has_delete_permission(self, request, obj=None):
-        return False
-
-admin.site.register(Submission, SubmissionAdmin)
-
-
-# ---------- Scoreboard ----------
-class ScoreboardRowAdmin(admin.ModelAdmin):
-    def has_add_permission(self, request):
-        return False
-
-    def has_change_permission(self, request, obj=None):
-        return False
-
-    def has_delete_permission(self, request, obj=None):
-        return False
-
-admin.site.register(ScoreboardRow, ScoreboardRowAdmin)

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts',
+    
      'rest_framework',
     'django_htmx',
    
@@ -141,4 +142,10 @@ REST_FRAMEWORK = {
 LOGIN_REDIRECT_URL = '/accounts/admin-dashboard/'
 
 
+# Judge0 API configuration
+JUDGE0_URL = "http://localhost:2358/submissions/?base64_encoded=false&wait=true"
+import os
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 

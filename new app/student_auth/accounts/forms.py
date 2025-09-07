@@ -20,17 +20,14 @@ class ProblemForm(forms.ModelForm):
             "code",
             "title",
             "description",
-            "cpp_answer",
-            "cpp_mem_limit_mb",
-            "python_answer",
-            "python_mem_limit_mb",
+          
         ]
 
 
 TestCaseFormSet = inlineformset_factory(
     Problem,
     TestCase,
-    fields=["input_data", "expected_output", "is_hidden"],
+    fields=["language", "file"],  # ✅ updated fields
     extra=1,
     can_delete=True,
 )

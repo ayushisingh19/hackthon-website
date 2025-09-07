@@ -1,8 +1,7 @@
 from django.urls import path
 from accounts import views
 from django.contrib import admin
-
-app_name = 'accounts'  # namespace define kar rahe hain
+from accounts import views
 
 urlpatterns = [
      path('admin/', admin.site.urls), 
@@ -12,22 +11,25 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
     path('contest/', views.contest, name='contest'),
 
-    # Problem detail view (jo aapko missing lag raha tha)
+
 
 
     # Problem editor with optional slug (for editing existing problem)
-    path('editor/', views.problem_editor_view, name='problem_editor'),
-    path('editor/<slug:slug>/', views.problem_editor_view, name='problem_editor_with_slug'),
+     path("start/", views.start, name="start"),   # Start page with all problems
+    path("start/<int:id>/", views.start, name="problem_detail"),
+    path('run_code/<int:problem_id>/', views.run_code, name='run_code'),
+
+
 
     # API endpoints
-    path('submit_code/', views.submit_code, name='submit_code'),
-    path('run_code/', views.run_code, name='run_code'),
+   
+
 
     # Admin URLs (staff only)
     path('admin_dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('create_contest/', views.create_contest, name='create_contest'),
     path('delete_contest/', views.delete_contest, name='delete_contest'),
     path('evaluate/', views.partial_evaluate, name='evaluate'),
-    path('api/start_evaluation/<int:contest_id>/', views.api_start_evaluation, name='api_start_evaluation'),
-    path('api/scoreboard/<int:contest_id>/', views.api_scoreboard, name='api_scoreboard'),
+    path("problems/<int:problem_id>/visible-testcases/", views.get_visible_testcases, name="get_visible_testcases"),
+
 ]
